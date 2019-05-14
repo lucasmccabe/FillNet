@@ -787,7 +787,7 @@ print('\tDone.')
 #with SH
 #create and train model
 print('INITIALIZING BIDIRECTIONAL MLAE MODEL WITH SH')
-bidirectional_mlae = create_mlae(20000, 1024, 512, 256, 128, 20000, 'squared_hinge') #params: input_size, hidden_size1, hidden_size2, hidden_size3, code_size, output_size, loss_function
+bidirectional_mlae = create_mlae(20000*2, 1024, 512, 256, 128, 20000, 'squared_hinge') #params: input_size, hidden_size1, hidden_size2, hidden_size3, code_size, output_size, loss_function
 print('TRAINING BIDIRECTIONAL MLAE MODEL WITH SH')
 hist_bidirectional_mlae = train_mlae(bidirectional_mlae, priors_train, posts_train, priors_test, posts_test, 10, 64) #params: model, X_train, Y_train, X_test, Y_test, epochs, batch_size
 print('\tDone.')
@@ -844,7 +844,7 @@ print('\tDone.')
 #with CP
 #create and train model
 print('INITIALIZING BIDIRECTIONAL MLAE MODEL WITH CP')
-bidirectional_mlae = create_mlae(20000, 1024, 512, 256, 128, 20000, 'cosine_proximity') #params: input_size, hidden_size1, hidden_size2, hidden_size3, code_size, output_size, loss_function
+bidirectional_mlae = create_mlae(20000*2, 1024, 512, 256, 128, 20000, 'cosine_proximity') #params: input_size, hidden_size1, hidden_size2, hidden_size3, code_size, output_size, loss_function
 print('TRAINING BIDIRECTIONAL MLAE MODEL WITH CP')
 hist_bidirectional_mlae = train_mlae(bidirectional_mlae, priors_train, posts_train, priors_test, posts_test, 10, 64) #params: model, X_train, Y_train, X_test, Y_test, epochs, batch_size
 print('\tDone.')
