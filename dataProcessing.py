@@ -91,8 +91,7 @@ def main():
     createDir('Frames_bambi')
     moveFrames('Frames_bambi')
     greyify('Frames_bambi')
-    
-    frames_to_csv('Frames_bambi_subset', 'data_subset.csv')
+    frames_to_csv('Frames_bambi', 'data.csv')
 
     print('Done.')
 #------------
