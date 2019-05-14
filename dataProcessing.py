@@ -63,13 +63,14 @@ def frames_to_csv(dir, dest):
 
     data = []
 
-    for f in os.listdir(path):
-        img = Image.open(dir + '/' + f)
-        img = img.resize((200, 100), Image.ANTIALIAS) #resize image
-        img_v = np.array(img).flatten()/255.0 #flatten and normalize
-        label = f[:-4] #just scrapes off the .jpg
-        vals = img_v.tolist()
-        data.append([label]+vals)
+    for f in os.listdir(dir):
+        if f.endswith('.jpg'):
+            img = Image.open(dir + '/' + f)
+            img = img.resize((200, 100), Image.ANTIALIAS) #resize image
+            img_v = np.array(img).flatten()/255.0 #flatten and normalize
+            label = f[:-4] #just scrapes off the .jpg
+            vals = img_v.tolist()
+            data.append([label]+vals)
 
     with open(dest, 'w') as dest:
         writer = csv.writer(dest)
@@ -79,6 +80,8 @@ def frames_to_csv(dir, dest):
 
 #main method - just everything in sequence
 def main():
+    
+
     for url in url_list:
         dlv(url)
 

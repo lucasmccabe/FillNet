@@ -237,22 +237,6 @@ def train_mlae(model, X_train, Y_train, X_test, Y_test, epochs, batch_size):
     return hist
 
 
-# BLUR-RELATED HELPER FUNCTIONS
-
-def blur_adjusted_mse(y_true, y_pred):
-    #print(y_true.shape, y_pred.shape)
-    arr_pred = K.eval(y_pred).reshape((200,100))
-    arr_true = K.eval(y_pred).reshape((200,100))
-    loss_blur = abs(blur_factor(arr_pred) - blur_factor(arr_true))
-    loss_mse = K.mean((y_true - y_pred)**2)
-    return loss_mse + loss_mse
-
-#computes bluriness via inverse-variance of Laplacian - higher is blurrier
-def blur_factor(arr, k=117): #experimentation suggests a factor k~=117 brings the average blur factor to 1
-    varLap = laplace(arr).var() #variance of positive Laplacian operator
-    return k/varLap
-#------------
-
 
 
 
