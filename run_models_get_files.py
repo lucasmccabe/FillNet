@@ -269,64 +269,6 @@ for i in range(len(predictions)):
 bf_data.to_csv('forward_mlae_msle_bf_data.csv', index=False)
 print('\tDone.')
 
-
-#----------------------------------------------
-
-#with SH
-#create and train model
-print('INITIALIZING FORWARD MLAE MODEL WITH SH')
-forward_mlae = create_mlae(20000, 1024, 512, 256, 128, 20000, 'squared_hinge') #params: input_size, hidden_size1, hidden_size2, hidden_size3, code_size, output_size, loss_function
-print('TRAINING FORWARD MLAE MODEL WITH SH')
-hist_forward_mlae = train_mlae(forward_mlae, priors_train, posts_train, priors_test, posts_test, 10, 64) #params: model, X_train, Y_train, X_test, Y_test, epochs, batch_size
-print('\tDone.')
-
-#save loss data
-print('SAVING LOSS DATA')
-loss_data = np.array(hist_forward_mlae.history['loss'])
-np.savetxt('forward_mlae_sh_loss_data.csv', loss_data, delimiter=",")
-val_loss_data = np.array(hist_forward_mlae.history['val_loss'])
-np.savetxt('forward_mlae_sh_val_loss_data.csv', val_loss_data, delimiter=",")
-print('\tDone.')
-
-#plot and save loss figure
-print('PLOTTING AND SAVING LOSS FIGURE')
-plt.plot(hist_forward_mlae.history['loss'], 'b', label='Training')
-plt.plot(hist_forward_mlae.history['val_loss'], 'r', label='Validation')
-plt.xlabel('Epoch (Index Starts at 0)')
-plt.ylabel('Squared Hinge')
-plt.title('Forward MLAE SH Loss During Training')
-plt.savefig('forward_mlae_sh_loss.png')
-print('\tDone.')
-
-#save model file
-print('SAVING MODEL FILE')
-forward_mlae.save('forward_mlae_sh_model.h5')
-print('\tDone.')
-
-#save test data
-print('SAVING TEST DATA')
-np.savetxt('forward_mlae_sh_priors_test.csv', priors_test, delimiter=",")
-np.savetxt('forward_mlae_sh_posts_test.csv', posts_test, delimiter=",")
-print('\tDone.')
-
-#save predictions
-print('SAVING PREDICTIONS')
-predictions = forward_mlae.predict(priors_test)
-np.savetxt('forward_mlae_sh_predictions.csv', predictions, delimiter=",")
-print('\tDone.')
-
-#save blur data
-print('SAVING BLUR DATA')
-bf_data = pd.DataFrame(np.zeros((len(predictions), 2)), columns = ['bf_predict', 'bf_true'])
-posts_test_temp = posts_test.reset_index(drop=True).values
-for i in range(len(predictions)):
-    bf_predict = blur_factor(predictions[i].reshape((200,100)))
-    bf_true = blur_factor(posts_test_temp[i].reshape((200,100)))
-    bf_data.loc[i]['bf_predict'] = bf_predict
-    bf_data.loc[i]['bf_true'] = bf_true
-bf_data.to_csv('forward_mlae_sh_bf_data.csv', index=False)
-print('\tDone.')
-
 #----------------------------------------------
 
 #with CP
@@ -535,62 +477,6 @@ print('\tDone.')
 
 #----------------------------------------------
 
-#with SH
-#create and train model
-print('INITIALIZING BACKWARD MLAE MODEL WITH SH')
-backward_mlae = create_mlae(20000, 1024, 512, 256, 128, 20000, 'squared_hinge') #params: input_size, hidden_size1, hidden_size2, hidden_size3, code_size, output_size, loss_function
-print('TRAINING BACKWARD MLAE MODEL WITH SH')
-hist_backward_mlae = train_mlae(backward_mlae, priors_train, posts_train, priors_test, posts_test, 10, 64) #params: model, X_train, Y_train, X_test, Y_test, epochs, batch_size
-print('\tDone.')
-
-#save loss data
-print('SAVING LOSS DATA')
-loss_data = np.array(hist_backward_mlae.history['loss'])
-np.savetxt('backward_mlae_sh_loss_data.csv', loss_data, delimiter=",")
-val_loss_data = np.array(hist_backward_mlae.history['val_loss'])
-np.savetxt('backward_mlae_sh_val_loss_data.csv', val_loss_data, delimiter=",")
-print('\tDone.')
-
-#plot and save loss figure
-print('PLOTTING AND SAVING LOSS FIGURE')
-plt.plot(hist_backward_mlae.history['loss'], 'b', label='Training')
-plt.plot(hist_backward_mlae.history['val_loss'], 'r', label='Validation')
-plt.xlabel('Epoch (Index Starts at 0)')
-plt.ylabel('Squared Hinge')
-plt.title('Backward MLAE SH Loss During Training')
-plt.savefig('backward_mlae_sh_loss.png')
-print('\tDone.')
-
-#save model file
-print('SAVING MODEL FILE')
-backward_mlae.save('backward_mlae_sh_model.h5')
-print('\tDone.')
-
-#save test data
-print('SAVING TEST DATA')
-np.savetxt('backward_mlae_sh_priors_test.csv', priors_test, delimiter=",")
-np.savetxt('backward_mlae_sh_posts_test.csv', posts_test, delimiter=",")
-print('\tDone.')
-
-#save predictions
-print('SAVING PREDICTIONS')
-predictions = backward_mlae.predict(priors_test)
-np.savetxt('backward_mlae_sh_predictions.csv', predictions, delimiter=",")
-print('\tDone.')
-
-#save blur data
-print('SAVING BLUR DATA')
-bf_data = pd.DataFrame(np.zeros((len(predictions), 2)), columns = ['bf_predict', 'bf_true'])
-posts_test_temp = posts_test.reset_index(drop=True).values
-for i in range(len(predictions)):
-    bf_predict = blur_factor(predictions[i].reshape((200,100)))
-    bf_true = blur_factor(posts_test_temp[i].reshape((200,100)))
-    bf_data.loc[i]['bf_predict'] = bf_predict
-    bf_data.loc[i]['bf_true'] = bf_true
-bf_data.to_csv('backward_mlae_sh_bf_data.csv', index=False)
-print('\tDone.')
-
-#----------------------------------------------
 
 #with CP
 #create and train model
@@ -784,62 +670,6 @@ print('\tDone.')
 
 #----------------------------------------------
 
-#with SH
-#create and train model
-print('INITIALIZING BIDIRECTIONAL MLAE MODEL WITH SH')
-bidirectional_mlae = create_mlae(20000*2, 1024, 512, 256, 128, 20000, 'squared_hinge') #params: input_size, hidden_size1, hidden_size2, hidden_size3, code_size, output_size, loss_function
-print('TRAINING BIDIRECTIONAL MLAE MODEL WITH SH')
-hist_bidirectional_mlae = train_mlae(bidirectional_mlae, priors_train, posts_train, priors_test, posts_test, 10, 64) #params: model, X_train, Y_train, X_test, Y_test, epochs, batch_size
-print('\tDone.')
-
-#save loss data
-print('SAVING LOSS DATA')
-loss_data = np.array(hist_bidirectional_mlae.history['loss'])
-np.savetxt('bidirectional_mlae_sh_loss_data.csv', loss_data, delimiter=",")
-val_loss_data = np.array(hist_bidirectional_mlae.history['val_loss'])
-np.savetxt('bidirectional_mlae_sh_val_loss_data.csv', val_loss_data, delimiter=",")
-print('\tDone.')
-
-#plot and save loss figure
-print('PLOTTING AND SAVING LOSS FIGURE')
-plt.plot(hist_bidirectional_mlae.history['loss'], 'b', label='Training')
-plt.plot(hist_bidirectional_mlae.history['val_loss'], 'r', label='Validation')
-plt.xlabel('Epoch (Index Starts at 0)')
-plt.ylabel('Squared Hinge')
-plt.title('Bidirectional MLAE SH Loss During Training')
-plt.savefig('bidirectional_mlae_sh_loss.png')
-print('\tDone.')
-
-#save model file
-print('SAVING MODEL FILE')
-bidirectional_mlae.save('bidirectional_mlae_sh_model.h5')
-print('\tDone.')
-
-#save test data
-print('SAVING TEST DATA')
-np.savetxt('bidirectional_mlae_sh_priors_test.csv', priors_test, delimiter=",")
-np.savetxt('bidirectional_mlae_sh_posts_test.csv', posts_test, delimiter=",")
-print('\tDone.')
-
-#save predictions
-print('SAVING PREDICTIONS')
-predictions = bidirectional_mlae.predict(priors_test)
-np.savetxt('bidirectional_mlae_sh_predictions.csv', predictions, delimiter=",")
-print('\tDone.')
-
-#save blur data
-print('SAVING BLUR DATA')
-bf_data = pd.DataFrame(np.zeros((len(predictions), 2)), columns = ['bf_predict', 'bf_true'])
-posts_test_temp = posts_test.reset_index(drop=True).values
-for i in range(len(predictions)):
-    bf_predict = blur_factor(predictions[i].reshape((200,100)))
-    bf_true = blur_factor(posts_test_temp[i].reshape((200,100)))
-    bf_data.loc[i]['bf_predict'] = bf_predict
-    bf_data.loc[i]['bf_true'] = bf_true
-bf_data.to_csv('bidirectional_mlae_sh_bf_data.csv', index=False)
-print('\tDone.')
-
-#----------------------------------------------
 
 #with CP
 #create and train model
