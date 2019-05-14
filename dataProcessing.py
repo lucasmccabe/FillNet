@@ -59,7 +59,7 @@ def greyify(dir):
 
 def frames_to_csv(dir, dest):
     print('Converting frames in ' + dir + ' to csv at ' + dest)
-    #path = os.path.dirname(os.path.abspath(__file__)) + '/' + dir
+    path = os.path.dirname(os.path.abspath(__file__)) + '/' + dir
 
     data = []
 
@@ -80,7 +80,7 @@ def frames_to_csv(dir, dest):
 
 #main method - just everything in sequence
 def main():
-    '''
+    
 
     for url in url_list:
         dlv(url)
@@ -91,7 +91,7 @@ def main():
     createDir('Frames_bambi')
     moveFrames('Frames_bambi')
     greyify('Frames_bambi')
-    '''
+    
     frames_to_csv('Frames_bambi_subset', 'data_subset.csv')
 
     print('Done.')
