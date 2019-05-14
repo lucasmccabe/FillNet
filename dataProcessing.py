@@ -59,17 +59,18 @@ def greyify(dir):
 
 def frames_to_csv(dir, dest):
     print('Converting frames in ' + dir + ' to csv at ' + dest)
-    path = os.path.dirname(os.path.abspath(__file__)) + '/' + dir
+    #path = os.path.dirname(os.path.abspath(__file__)) + '/' + dir
 
     data = []
 
-    for f in os.listdir(path):
-        img = Image.open(dir + '/' + f)
-        img = img.resize((200, 100), Image.ANTIALIAS) #resize image
-        img_v = np.array(img).flatten()/255.0 #flatten and normalize
-        label = f[:-4] #just scrapes off the .jpg
-        vals = img_v.tolist()
-        data.append([label]+vals)
+    for f in os.listdir(dir):
+        if f.endswith('.jpg'):
+            img = Image.open(dir + '/' + f)
+            img = img.resize((200, 100), Image.ANTIALIAS) #resize image
+            img_v = np.array(img).flatten()/255.0 #flatten and normalize
+            label = f[:-4] #just scrapes off the .jpg
+            vals = img_v.tolist()
+            data.append([label]+vals)
 
     with open(dest, 'w') as dest:
         writer = csv.writer(dest)
@@ -79,6 +80,8 @@ def frames_to_csv(dir, dest):
 
 #main method - just everything in sequence
 def main():
+    '''
+
     for url in url_list:
         dlv(url)
 
@@ -88,7 +91,8 @@ def main():
     createDir('Frames_bambi')
     moveFrames('Frames_bambi')
     greyify('Frames_bambi')
-    frames_to_csv('Frames_bambi', 'data.csv')
+    '''
+    frames_to_csv('Frames_bambi_subset', 'data_subset.csv')
 
     print('Done.')
 #------------
